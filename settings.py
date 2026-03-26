@@ -1,0 +1,9 @@
+SCREEN_HEIGHT = 640
+SCREEN_WIDTH = 1280
+FOV = 60 #Field of view
+FPS = 60 #Frame Rate per second
+PLAYER_SPEED = 1 #grid per second 
+PLAYER_ROT_SPEED = 30 #degrees per second
+WALL_COLOR = (100, 100, 100)
+FLOOR_COLOR = (50, 50, 50) 
+CEILING_COLOR = (30, 30, 30)
