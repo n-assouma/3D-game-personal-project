@@ -1,5 +1,5 @@
 import map
-from math import cos, sin, tan, sqrt, trunc, pi 
+from math import cos, sin, tan, trunc, pi 
 from settings import FOV, FPS, PLAYER_SPEED, PLAYER_ROT_SPEED
 
 ANGLE = (PLAYER_ROT_SPEED * pi) / 180
@@ -11,6 +11,9 @@ Left rotation matrix:  | ANGLE_COS  ANGLE_SIN |
 
 Right rotation matrix: | ANGLE_COS -ANGLE_SIN |
                        | ANGLE_SIN  ANGLE_COS | 
+by uing a signed angle, we can easy switch from right to left matrix
+rotate(ANGLE) //Right matrix
+rotate(-ANGLE) //LEFT matrix
 '''
 STEP_SIZE = PLAYER_SPEED / FPS #SPEED per frame
 
@@ -30,9 +33,9 @@ class Player():
             case 'B':
                 self._move_backward()
             case 'L':
-                self._rotate_left()
+                self._rotate_FOV(user_input)
             case 'R':
-                self._rotate_right()
+                self._rotate_FOV(user_input)
 
     def _move_forward(self) -> None:
         new_x_pos = self._position[0] + self._direction[0] * STEP_SIZE
@@ -53,21 +56,24 @@ class Player():
                 new_y_pos,
             )
 
-    def _rotate_left(self) -> None:
-        self._direction = (
-            self._direction[0] *  ANGLE_COS - self._direction[1] *  ANGLE_SIN,
-            self._direction[0] * -ANGLE_SIN - self._direction[1] *  ANGLE_COS
-        )
-        self._update_camera_plan()
-
-    def _rotate_right(self) -> None:
-        self._direction = (
-            self._direction[0] *  ANGLE_COS - self._direction[1] * -ANGLE_SIN,
-            self._direction[0] *  ANGLE_SIN - self._direction[1] *  ANGLE_COS
-        )
-        self._update_camera_plan()
-    
-    def _update_camera_plan(self):
-        #FOrcing the dot product of the direction vector and camera plan to be 0
-        #Also maintaining camera plan module constant and equal to camera lenght
-        pass
+    #rotate direction vector and camera plan at the same time
+    def _rotate_FOV(self, direction) -> None:
+        match direction:
+            case 'R':
+                self._direction    =  (
+                    self._direction[0] *  ANGLE_COS + self._direction[1] * -ANGLE_SIN,
+                    self._direction[0] *  ANGLE_SIN + self._direction[1] *  ANGLE_COS
+                )
+                self._camera_plane =  (
+                    self._camera_plane[0] *  ANGLE_COS + self._camera_plane[1] * -ANGLE_SIN,
+                    self._camera_plane[0] *  ANGLE_SIN + self._camera_plane[1] *  ANGLE_COS
+                )
+            case 'L':
+                self._direction = (
+                    self._direction[0] *  ANGLE_COS + self._direction[1] *  ANGLE_SIN,
+                    self._direction[0] * -ANGLE_SIN + self._direction[1] *  ANGLE_COS
+                )
+                self._camera_plane =  (
+                    self._camera_plane[0] *  ANGLE_COS + self._camera_plane[1] *  ANGLE_SIN,
+                    self._camera_plane[0] * -ANGLE_SIN + self._camera_plane[1] *  ANGLE_COS
+                )
