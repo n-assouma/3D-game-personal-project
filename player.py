@@ -32,6 +32,10 @@ class Player():
     @property
     def direction(self):
         return self._direction
+    
+    @property
+    def camera_plane(self):
+        return self._camera_plane
 
     def move(self, user_input) -> None:
         match user_input:
