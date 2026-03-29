@@ -10,5 +10,5 @@ Check out the requirement.txt file and run the adaquate commmands
 Dont really now yet. I guess just run the main.py file
 
 ##The design 
-
+![Design CLaude and I settled on](assets/system_design.png)
 CLaude assisted me designing the system. To be improved further later
