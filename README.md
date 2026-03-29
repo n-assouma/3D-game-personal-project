@@ -11,4 +11,5 @@ Dont really now yet. I guess just run the main.py file
 
 ##The design 
 ![Design CLaude and I settled on](assets/system_design.png)
-CLaude assisted me designing the system. To be improved further later
+Raycasting is implemented using DDA (Digital Differential Analyzer) with make the wall detection  more efficient than a regular raycast
+

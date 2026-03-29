@@ -25,6 +25,14 @@ class Player():
         self._direction = (0, -1) #player initialy look toward top of screen
         self._camera_plane = (CAMERA_PLAN_LENGHT, 0) 
 
+    @property
+    def position(self):
+        return self._position
+    
+    @property
+    def direction(self):
+        return self._direction
+
     def move(self, user_input) -> None:
         match user_input:
             case 'F':
