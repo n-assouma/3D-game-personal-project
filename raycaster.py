@@ -56,7 +56,9 @@ class Raycaster():
                     (ray_pos[1] - self._player.position[1])**2) ** 0.5 
         self._distances.append(distance) 
 
-    def cast_all_rays(self):
+    def cast_all_rays(self) -> list:
         self._distances = []
         for screen_pixel_column in range(SCREEN_WIDTH):
             self._cast_ray(screen_pixel_column)
+        
+        return self._distances
