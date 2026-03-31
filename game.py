@@ -45,23 +45,20 @@ class Game():
     '''
     def _handle_input(self) -> None:
         for event in pygame.event.get():
-        #mathc the input to  the player movement
-            if event.type == pygame.KEYDOWN:
-                if event.key in (pygame.K_w, pygame.K_UP):
-                    self._player.move('F')
-
-                elif event.key in (pygame.K_a, pygame.K_LEFT):
-                    self._player.move('L')
-
-                elif event.key in (pygame.K_d, pygame.K_RIGHT):
-                    self._player.move('R')
-
-                elif event.key in (pygame.K_s, pygame.K_DOWN):
-                    self._player.move('B')
-
-            elif event.type == pygame.QUIT:
+            if event.type == pygame.QUIT:
                 self._running = False
 
+            else:
+                key_pressed = pygame.key.get_pressed()
+                #pressed key is ...match movement
+                if key_pressed[pygame.K_w] or key_pressed[pygame.K_UP]:
+                    self._player.move('F')
+                elif key_pressed[pygame.K_s] or key_pressed[pygame.K_DOWN]:
+                    self._player.move('B')
+                elif key_pressed[pygame.K_d] or key_pressed[pygame.K_RIGHT]:
+                    self._player.move('R')
+                elif key_pressed[pygame.K_a] or key_pressed[pygame.K_LEFT]:
+                    self._player.move('L')
 
     def _update(self) -> list:
         #update game state

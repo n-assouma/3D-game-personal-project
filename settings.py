@@ -1,5 +1,5 @@
 SCREEN_HEIGHT = 640
-SCREEN_WIDTH = 1280
+SCREEN_WIDTH = 640
 FOV = 60 #Field of view
 FPS = 60 #Frame Rate per second
 PLAYER_SPEED = 1 #grid per second 
