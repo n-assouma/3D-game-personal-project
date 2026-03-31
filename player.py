@@ -37,7 +37,7 @@ class Player():
     def camera_plane(self):
         return self._camera_plane
 
-    def move(self, user_input) -> None:
+    def move(self, user_input: str) -> None:
         match user_input:
             case 'F':
                 self._move_forward()
