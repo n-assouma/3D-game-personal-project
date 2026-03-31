@@ -30,19 +30,20 @@ class Game():
             #set fps limit
             self._clock.tick(FPS)
             #handle_input
-            self.handle_input()
+            self._handle_input()
             # update game state
-            game_output = self.update()
+            game_output = self._update()
             # draw screen
-            self.draw(game_output)
+            self._draw(game_output)
+            pygame.display.flip()
 
-        self.exit()
+        self._exit()
 
     '''
     Issue, only move the player once even though a key is still pressed down.
     SHould go back to claude chat to see event.get_pressed function
     '''
-    def handle_input(self) -> None:
+    def _handle_input(self) -> None:
         for event in pygame.event.get():
         #mathc the input to  the player movement
             if event.type == pygame.KEYDOWN:
@@ -62,16 +63,16 @@ class Game():
                 self._running = False
 
 
-    def update(self) -> list:
+    def _update(self) -> list:
         #update game state
         #call raycaster
         return self._raycaster.cast_all_rays()
         
 
-    def draw(self, update_output: list) -> None:
+    def _draw(self, update_output: list) -> None:
         #call renderer
         self._renderer.draw(update_output)
 
-    def exit(self) -> None:
+    def _exit(self) -> None:
         pygame.quit()
         sys.exit()
