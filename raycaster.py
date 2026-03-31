@@ -41,6 +41,11 @@ class Raycaster():
                     ray_pos[0] + step_x * ray_dir[0],
                     ray_pos[1] + step_x * ray_dir[1]
                 )
+                boundary_position = (
+                    int(ray_pos[0]) if ray_dir[0] > 0 else int(ray_pos[0] - 1),
+                    int(ray_pos[1])
+                )
+
             #else (ray reach horizontal noundary)
             else:
                 #update ray position
@@ -48,8 +53,12 @@ class Raycaster():
                     ray_pos[0] + step_y * ray_dir[0],
                     ray_pos[1] + step_y * ray_dir[1]
                 )                
+                boundary_position = (
+                    int(ray_pos[0]),
+                    int(ray_pos[1]) if ray_dir[1] > 0 else int(ray_pos[1] -1)
+                )
             #check if it is a wall (reurn it to hit wall variable directly)
-            hit_wall = self._map.is_wall(int(ray_pos[0]), int(ray_pos[1]))
+            hit_wall = self._map.is_wall(boundary_position[0], boundary_position[1])
 
         #compute distance
         distance = ((ray_pos[0] - self._player.position[0])**2 + 
