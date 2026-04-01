@@ -55,7 +55,7 @@ class Game():
                     self._player.move('F')
                 elif key_pressed[pygame.K_s] or key_pressed[pygame.K_DOWN]:
                     self._player.move('B')
-                elif key_pressed[pygame.K_d] or key_pressed[pygame.K_RIGHT]:
+                if key_pressed[pygame.K_d] or key_pressed[pygame.K_RIGHT]:
                     self._player.move('R')
                 elif key_pressed[pygame.K_a] or key_pressed[pygame.K_LEFT]:
                     self._player.move('L')

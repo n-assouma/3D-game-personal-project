@@ -26,8 +26,8 @@ class Raycaster():
         hit_wall = False
         while not hit_wall:
             #Find the coordonate of the next boundary
-            next_x = int(ray_pos[0] + 1) if ray_dir[0] > 0 else int(ray_pos[0] - 1)
-            next_y = int(ray_pos[1] + 1) if ray_dir[1] > 0 else int(ray_pos[1] - 1)
+            next_x = int(ray_pos[0] + 1) if ray_dir[0] > 0 else int(ray_pos[0]) - 1
+            next_y = int(ray_pos[1] + 1) if ray_dir[1] > 0 else int(ray_pos[1]) - 1
 
             #Compute the number of step to the next
             #horizontal or vertical boundary according to ray direction vector
