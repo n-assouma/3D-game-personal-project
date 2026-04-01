@@ -37,8 +37,7 @@ class Game():
             self._draw(game_output)
             pygame.display.flip()
 
-        self._exit()
-
+        self.exit()
     '''
     Issue, only move the player once even though a key is still pressed down.
     SHould go back to claude chat to see event.get_pressed function
@@ -70,6 +69,6 @@ class Game():
         #call renderer
         self._renderer.draw(update_output)
 
-    def _exit(self) -> None:
+    def exit(self) -> None:
         pygame.quit()
         sys.exit()
