@@ -22,47 +22,51 @@ class Raycaster():
         #initalise step_x, step_y, next_x, next_y, ray_ps_x ray_posy
         ray_pos = self._player.position
 
-        #logic loop
+        '''
+        map_x, map_y — current grid cell (integers)
+        step_x, step_y — +1 or -1 per axis
+        dist_x, dist_y — distance along the ray to the next vertical/horizontal boundary
+        delta_x, delta_y — the fixed increment to add each step (1 / ray_dir)
+        '''
+        map_x, map_y = int(ray_pos[0]), int (ray_pos[1])
+
+        step_x = 1 if ray_dir[0] > 0 else -1
+        step_y = 1 if ray_dir[1] > 0 else -1
+
+        next_x = map_x + 1 if step_x > 0 else map_x
+        dist_x = (next_x - ray_pos[0]) / ray_dir[0] if ray_dir[0] != 0 else float('inf')
+
+        next_y = map_y + 1 if step_y > 0 else map_y
+        dist_y = (next_y - ray_pos[1]) / ray_dir[1] if ray_dir[1] != 0 else float('inf')
+
+        delta_x = 1 / ray_dir[0] if ray_dir[0] != 0 else float('inf')
+        delta_y = 1 / ray_dir[1] if ray_dir[1] != 0 else float('inf')
+
         hit_wall = False
         while not hit_wall:
-            #Find the coordonate of the next boundary
-            next_x = int(ray_pos[0] + 1) if ray_dir[0] > 0 else int(ray_pos[0]) - 1
-            next_y = int(ray_pos[1] + 1) if ray_dir[1] > 0 else int(ray_pos[1]) - 1
-
-            #Compute the number of step to the next
-            #horizontal or vertical boundary according to ray direction vector
-            step_x = (next_x - ray_pos[0]) / ray_dir[0] if ray_dir[0] != 0 else float('inf') 
-            step_y = (next_y - ray_pos[1]) / ray_dir[1] if ray_dir[1] != 0 else float('inf') 
-
-            #if ray reach vertical boundary
-            if (step_x < step_y and step_x != -1):
-                #update ray position
-                ray_pos = (
-                    ray_pos[0] + step_x * ray_dir[0],
-                    ray_pos[1] + step_x * ray_dir[1]
-                )
-                boundary_position = (
-                    int(ray_pos[0]) if ray_dir[0] > 0 else int(ray_pos[0] - 1),
-                    int(ray_pos[1])
-                )
-
-            #else (ray reach horizontal noundary)
+            '''
+            Compare dist_x vs dist_y to decide which boundary to step to
+            Advance map_x or map_y by step_x or step_y
+            Add delta_x or delta_y to dist_x or dist_y
+            Check is_wall(map_x, map_y)
+            '''
+            if dist_x < dist_y:
+                map_x += step_x 
+                dist_x += delta_x
+                side = 'x'
             else:
-                #update ray position
-                ray_pos = (
-                    ray_pos[0] + step_y * ray_dir[0],
-                    ray_pos[1] + step_y * ray_dir[1]
-                )                
-                boundary_position = (
-                    int(ray_pos[0]),
-                    int(ray_pos[1]) if ray_dir[1] > 0 else int(ray_pos[1] -1)
-                )
-            #check if it is a wall (reurn it to hit wall variable directly)
-            hit_wall = self._map.is_wall(boundary_position[0], boundary_position[1])
+                map_y += step_y
+                dist_y += delta_y
+                side = 'y'
+                
+            hit_wall = self._map.is_wall(map_x, map_y)
 
         #compute distance
-        distance = ((ray_pos[0] - self._player.position[0])**2 + 
-                    (ray_pos[1] - self._player.position[1])**2) ** 0.5 
+        if side == 'x':
+            distance = dist_x - delta_x
+        elif side == 'y':
+            distance = dist_y - delta_y
+
         self._distances.append(distance) 
 
     def cast_all_rays(self) -> list:
