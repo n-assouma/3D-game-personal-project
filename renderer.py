@@ -1,4 +1,5 @@
 import pygame
+import sys
 from settings import (
     SCREEN_HEIGHT,   
     FLOOR_COLOR, 
@@ -8,11 +9,11 @@ from settings import (
 )
 
 '''Taking a distance of 1 unit in our initial 10x10 grid as a reference
-to a wall height of 80%
-DIstance of 1      --> 80% of screen height
+to a wall height of 50%
+DIstance of 1      --> 50% of screen height
 Distance from wall --> ?
 '''
-COEFF = SCREEN_HEIGHT * 0.8
+COEFF = SCREEN_HEIGHT * 0.5
 class Renderer:
     def __init__(self, screen: pygame.Surface):
         self._screen = screen
@@ -27,10 +28,11 @@ class Renderer:
         return shaded_wall_color
     
     def _draw_wall(self, screen_pixel_column: int,
-                    screen_row: int, wall_size: float, distance: float) -> None:
+                    screen_row: int, wall_size: float,
+                    distance: float) -> None:
         pygame.draw.line(
             self._screen,
-            self._shader(distance),
+            self._shader(distance), #color of the wall and shadow
             (screen_pixel_column, screen_row),
             (screen_pixel_column, screen_row + int(wall_size) + 1),
             width=1
@@ -63,7 +65,13 @@ class Renderer:
         #for each cloumn of pixel
         for column, distance in enumerate(distances_to_wall):
             #compute wall size and floor and ceiling size
-            wall_size = COEFF / distance 
+            try:
+                size = COEFF / distance 
+            except ZeroDivisionError:
+                print('Error: Player spawn on wall. Change player initial spawning position')
+                pygame.quit()
+                sys.exit(1)
+            wall_size = size if size < SCREEN_HEIGHT else SCREEN_HEIGHT
             wall_start_row = floor_and_ceiling_len = (SCREEN_HEIGHT - wall_size) / 2
             #call draw wall, ceiling and floor passing wall size and index of the column
             self._draw_ceiling(column, floor_and_ceiling_len)

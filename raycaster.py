@@ -52,16 +52,9 @@ class Raycaster():
                 next_y += 1 if ray_dir[1] > 0 else -1
                 step_y = (next_y - ray_pos[1]) / ray_dir[1]
         
-        #compute distance from ray to horizontal boundary and vertical boundary
-        if side == 'x':
-            dist_x = step_x * ray_dir[0]
-            dist_y = step_x * ray_dir[1]
-        else:
-            dist_x = step_y * ray_dir[0]
-            dist_y = step_y * ray_dir[1]
-
         #compute distance
-        distance = (dist_x**2 + dist_y**2) ** 0.5 
+        distance = step_x if side == 'x' else step_y
+        #Append to list of distances
         self._distances.append(distance) 
 
     def cast_all_rays(self) -> list:
