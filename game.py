@@ -47,17 +47,16 @@ class Game():
             if event.type == pygame.QUIT:
                 self._running = False
 
-            else:
-                key_pressed = pygame.key.get_pressed()
-                #pressed key is ...match movement
-                if key_pressed[pygame.K_w] or key_pressed[pygame.K_UP]:
-                    self._player.move('F')
-                elif key_pressed[pygame.K_s] or key_pressed[pygame.K_DOWN]:
-                    self._player.move('B')
-                if key_pressed[pygame.K_d] or key_pressed[pygame.K_RIGHT]:
-                    self._player.move('R')
-                elif key_pressed[pygame.K_a] or key_pressed[pygame.K_LEFT]:
-                    self._player.move('L')
+        key_pressed = pygame.key.get_pressed()
+        #pressed key is ...match movement
+        if key_pressed[pygame.K_w] or key_pressed[pygame.K_UP]:
+            self._player.move('F')
+        elif key_pressed[pygame.K_s] or key_pressed[pygame.K_DOWN]:
+            self._player.move('B')
+        if key_pressed[pygame.K_d] or key_pressed[pygame.K_RIGHT]:
+            self._player.move('R')
+        elif key_pressed[pygame.K_a] or key_pressed[pygame.K_LEFT]:
+            self._player.move('L')
 
     def _update(self) -> list:
         #update game state
