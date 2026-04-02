@@ -9,11 +9,11 @@ from settings import (
 )
 
 '''Taking a distance of 1 unit in our initial 10x10 grid as a reference
-to a wall height of 80%
-DIstance of 1      --> 80% of screen height
+to a wall height of 50%
+DIstance of 1      --> 50% of screen height
 Distance from wall --> ?
 '''
-COEFF = SCREEN_HEIGHT * 0.8
+COEFF = SCREEN_HEIGHT * 0.5
 class Renderer:
     def __init__(self, screen: pygame.Surface):
         self._screen = screen
