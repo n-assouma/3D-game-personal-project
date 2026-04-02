@@ -21,7 +21,7 @@ CAMERA_PLAN_LENGHT = tan((FOV * pi)/360) # basically tan (FOV in rad / 2)
 class Player():
     def __init__(self, game_map: map.Map):
         self._map = game_map
-        self._position = (5, 5) #initial position
+        self._position = (1.5, 1.5) #initial position
         self._direction = (0, -1) #player initialy look toward top of screen
         self._camera_plane = (CAMERA_PLAN_LENGHT, 0) 
 
