@@ -3,7 +3,8 @@ from settings import (
     SCREEN_HEIGHT,   
     FLOOR_COLOR, 
     CEILING_COLOR, 
-    WALL_COLOR
+    WALL_COLOR,
+    MAX_DISTANCE_FOR_SHADING
 )
 
 '''Taking a distance of 1 unit in our initial 10x10 grid as a reference
@@ -16,11 +17,20 @@ class Renderer:
     def __init__(self, screen: pygame.Surface):
         self._screen = screen
 
+    def _shader(self, distance: float) -> tuple:
+        shade = max(0, 1 - distance/MAX_DISTANCE_FOR_SHADING)
+        shaded_wall_color = (
+            int(WALL_COLOR[0] * shade), 
+            int(WALL_COLOR[1] * shade), 
+            int(WALL_COLOR[2] * shade)
+        ) 
+        return shaded_wall_color
+    
     def _draw_wall(self, screen_pixel_column: int,
-                    screen_row: int, wall_size: float) -> None:
+                    screen_row: int, wall_size: float, distance: float) -> None:
         pygame.draw.line(
             self._screen,
-            WALL_COLOR,
+            self._shader(distance),
             (screen_pixel_column, screen_row),
             (screen_pixel_column, screen_row + int(wall_size) + 1),
             width=1
@@ -57,6 +67,6 @@ class Renderer:
             wall_start_row = floor_and_ceiling_len = (SCREEN_HEIGHT - wall_size) / 2
             #call draw wall, ceiling and floor passing wall size and index of the column
             self._draw_ceiling(column, floor_and_ceiling_len)
-            self._draw_wall(column, int(wall_start_row), wall_size)
+            self._draw_wall(column, int(wall_start_row), wall_size, distance)
             self._draw_floor(column, floor_and_ceiling_len)
     
