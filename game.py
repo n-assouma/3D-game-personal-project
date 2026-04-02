@@ -35,6 +35,7 @@ class Game():
             game_output = self._update()
             # draw screen
             self._draw(game_output)
+            print(self._clock.get_fps())
             pygame.display.flip()
 
         self.exit()
